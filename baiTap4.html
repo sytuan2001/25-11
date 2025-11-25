@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lớp Rectangle - Hình chữ nhật</title>
+    <link rel="stylesheet" href="styce.css">
+</head>
+<body>
+<h1>📐 Bài tập: Lớp Rectangle (Hình chữ nhật)</h1>
+
+<div class="box">
+    <h2>Canvas - Nơi vẽ hình chữ nhật</h2>
+    <canvas id="myCanvas" width="500" height="300"></canvas>
+</div>
+
+<div class="box">
+    <h2>Thông tin hình chữ nhật</h2>
+    <div class="info" id="info">
+        <p><strong>Chiều dài:</strong> <span id="lengthDisplay">-</span></p>
+        <p><strong>Chiều rộng:</strong> <span id="widthDisplay">-</span></p>
+        <p><strong>Diện tích:</strong> <span id="areaDisplay">-</span></p>
+        <p><strong>Chu vi:</strong> <span id="perimeterDisplay">-</span></p>
+    </div>
+</div>
+
+<div class="box">
+    <h2>Các thao tác</h2>
+    <button onclick="step1()">Bước 1: Tạo hình chữ nhật</button>
+    <button onclick="step2()">Bước 2: Vẽ hình</button>
+    <button onclick="step3()">Bước 3: Thay đổi kích thước</button>
+    <button onclick="step4()">Bước 4: Tính diện tích & chu vi</button>
+</div>
+
+<script>
+    // ================================================================
+    // BƯỚC 1: KHAI BÁO LỚP RECTANGLE
+    // ================================================================
+
+    class Rectangle {
+        // Constructor: Hàm khởi tạo, chạy khi tạo object mới
+        constructor(length, width) {
+            this.length = length;  // Thuộc tính: chiều dài
+            this.width = width;    // Thuộc tính: chiều rộng
+        }
+
+        // Phương thức: Tính diện tích
+        getArea() {
+            return this.length * this.width;
+        }
+
+        // Phương thức: Tính chu vi
+        getPerimeter() {
+            return (this.length + this.width) * 2;
+        }
+
+        // Phương thức: Vẽ hình chữ nhật lên canvas
+        draw() {
+            // Lấy canvas từ HTML
+            let canvas = document.getElementById('myCanvas');
+            let ctx = canvas.getContext('2d');
+
+            // Xóa canvas trước khi vẽ
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Tính vị trí vẽ ở giữa canvas
+            let x = (canvas.width - this.length) / 2;
+            let y = (canvas.height - this.width) / 2;
+
+            // Vẽ hình chữ nhật
+            ctx.fillStyle = '#4CAF50';  // Màu xanh lá
+            ctx.fillRect(x, y, this.length, this.width);
+
+            // Vẽ viền đen
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, this.length, this.width);
+
+            // Ghi chú kích thước
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText('Dài: ' + this.length, x + 10, y + 20);
+            ctx.fillText('Rộng: ' + this.width, x + 10, y + 40);
+        }
+    }
+
+    // ================================================================
+    // BƯỚC 2: KHAI BÁO BIẾN TOÀN CỤC
+    // ================================================================
+
+    let myRectangle;  // Biến để lưu đối tượng hình chữ nhật
+
+    // ================================================================
+    // CÁC HÀM XỬ LÝ THEO KỊCH BẢN
+    // ================================================================
+
+    // BƯỚC 1: Khai báo và khởi tạo đối tượng Rectangle
+    function step1() {
+        // Tạo object mới từ class Rectangle
+        // new Rectangle(chiều_dài, chiều_rộng)
+        myRectangle = new Rectangle(200, 100);
+
+        alert('✅ Bước 1: Đã tạo hình chữ nhật!\n\nChiều dài: 200\nChiều rộng: 100');
+
+        console.log('Object đã tạo:', myRectangle);
+        console.log('Chiều dài:', myRectangle.length);
+        console.log('Chiều rộng:', myRectangle.width);
+    }
+
+    // BƯỚC 2: Hiển thị hình chữ nhật lên màn hình
+    function step2() {
+        if (!myRectangle) {
+            alert('❌ Vui lòng chạy Bước 1 trước!');
+            return;
+        }
+
+        // Gọi phương thức draw() để vẽ
+        myRectangle.draw();
+
+        alert('✅ Bước 2: Đã vẽ hình chữ nhật lên canvas!');
+    }
+
+    // BƯỚC 3: Thay đổi chiều dài và chiều rộng
+    function step3() {
+        if (!myRectangle) {
+            alert('❌ Vui lòng chạy Bước 1 trước!');
+            return;
+        }
+
+        // Thay đổi thuộc tính của object
+        myRectangle.length = 300;  // Đổi chiều dài thành 300
+        myRectangle.width = 150;   // Đổi chiều rộng thành 150
+
+        // Vẽ lại với kích thước mới
+        myRectangle.draw();
+
+        alert('✅ Bước 3: Đã thay đổi kích thước!\n\nChiều dài mới: 300\nChiều rộng mới: 150');
+    }
+
+    // BƯỚC 4: Tính và in diện tích, chu vi
+    function step4() {
+        if (!myRectangle) {
+            alert('❌ Vui lòng chạy Bước 1 trước!');
+            return;
+        }
+
+        // Gọi các phương thức tính toán
+        let area = myRectangle.getArea();
+        let perimeter = myRectangle.getPerimeter();
+
+        // Hiển thị lên màn hình
+        document.getElementById('lengthDisplay').textContent = myRectangle.length;
+        document.getElementById('widthDisplay').textContent = myRectangle.width;
+        document.getElementById('areaDisplay').textContent = area;
+        document.getElementById('perimeterDisplay').textContent = perimeter;
+
+        alert('✅ Bước 4: Đã tính toán!\n\n' +
+            'Chiều dài: ' + myRectangle.length + '\n' +
+            'Chiều rộng: ' + myRectangle.width + '\n' +
+            'Diện tích: ' + area + '\n' +
+            'Chu vi: ' + perimeter);
+    }
+</script>
+</body>
+</html>
