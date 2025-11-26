@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lớp Temperature - Nhiệt độ</title>
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+<div class="container">
+    <h1>🌡️ Bài tập: Lớp Temperature (Nhiệt độ)</h1>
+
+    <!-- Phần 1: Giải thích -->
+    <div class="box">
+        <h2>📖 Công thức chuyển đổi</h2>
+        <div class="formula">
+            <strong>Celsius sang Fahrenheit:</strong> °F = (°C × 9/5) + 32
+        </div>
+        <div class="formula">
+            <strong>Celsius sang Kelvin:</strong> K = °C + 273.15
+        </div>
+        <p><strong>Lưu ý:</strong> Nhiệt độ tối thiểu là -273°C (Không tuyệt đối)</p>
+    </div>
+
+    <!-- Phần 2: Kịch bản theo yêu cầu -->
+    <div class="box">
+        <h2>🎯 Kịch bản theo yêu cầu bài tập</h2>
+        <button id="btnStep1">Bước 1: Khởi tạo đối tượng</button>
+        <button id="btnStep2">Bước 2: Gán giá trị 25°C</button>
+        <button id="btnStep3">Bước 3: Hiển thị °F và K</button>
+
+        <div id="result1" class="result">
+            <h3>Kết quả:</h3>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <!-- Phần 3: Thử nghiệm tự do -->
+    <div class="box">
+        <h2>🧪 Thử nghiệm với giá trị khác</h2>
+        <p>Nhập nhiệt độ (°C):</p>
+        <input type="number" id="customTemp" placeholder="Ví dụ: 100" value="100">
+        <button id="btnConvert">Chuyển đổi</button>
+
+        <div id="result2" class="result">
+            <h3>Kết quả chuyển đổi:</h3>
+            <div id="customResult"></div>
+        </div>
+
+        <div id="errorMsg" class="error" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+    // ================================================================
+    // BƯỚC 1: KHAI BÁO LỚP TEMPERATURE
+    // ================================================================
+
+    class Temperature {
+        // Constructor: Hàm khởi tạo
+        constructor(celsius) {
+            // Kiểm tra giá trị tối thiểu -273°C
+            if (celsius < -273) {
+                console.error('Nhiệt độ không thể thấp hơn -273°C!');
+                this.celsius = -273;
+            } else {
+                this.celsius = celsius;  // Thuộc tính: nhiệt độ tính theo °C
+            }
+        }
+
+        // Phương thức: Chuyển từ °C sang °F
+        toFahrenheit() {
+            return (this.celsius * 9/5) + 32;
+        }
+
+        // Phương thức: Chuyển từ °C sang K
+        toKelvin() {
+            return this.celsius + 273.15;
+        }
+
+        // Phương thức: Hiển thị tất cả đơn vị
+        display() {
+            return {
+                celsius: this.celsius,
+                fahrenheit: this.toFahrenheit(),
+                kelvin: this.toKelvin()
+            };
+        }
+    }
+
+    // ================================================================
+    // BIẾN TOÀN CỤC
+    // ================================================================
+
+    let myTemperature;  // Biến lưu đối tượng Temperature
+
+    // ================================================================
+    // CÁC HÀM XỬ LÝ THEO KỊCH BẢN
+    // ================================================================
+
+    // BƯỚC 1: Khởi tạo đối tượng Temperature
+    function step1() {
+        // Tạo object mới từ class Temperature
+        // Ban đầu gán giá trị 0°C
+        myTemperature = new Temperature(0);
+
+        let resultDiv = document.getElementById('result1');
+        let content = document.getElementById('resultContent');
+
+        content.innerHTML = `
+        <p>✅ <strong>Đã khởi tạo đối tượng Temperature thành công!</strong></p>
+        <p>Giá trị ban đầu: <span class="celsius">0°C</span></p>
+      `;
+
+        resultDiv.classList.add('show');
+
+        alert('✅ Bước 1: Đã tạo đối tượng Temperature!\n\nGiá trị ban đầu: 0°C');
+
+        // In ra console để xem cấu trúc object
+        console.log('Object Temperature:', myTemperature);
+        console.log('Thuộc tính celsius:', myTemperature.celsius);
+    }
+
+    // BƯỚC 2: Gán giá trị 25°C
+    function step2() {
+        if (!myTemperature) {
+            alert('❌ Vui lòng chạy Bước 1 trước!');
+            return;
+        }
+
+        // Gán giá trị mới cho thuộc tính celsius
+        myTemperature.celsius = 25;
+
+        let content = document.getElementById('resultContent');
+
+        content.innerHTML = `
+        <p>✅ <strong>Đã gán giá trị nhiệt độ!</strong></p>
+        <p class="temp-display celsius">🌡️ ${myTemperature.celsius}°C</p>
+      `;
+
+        alert('✅ Bước 2: Đã gán nhiệt độ 25°C!');
+
+        console.log('Giá trị mới:', myTemperature.celsius);
+    }
+
+    // BƯỚC 3: Hiển thị nhiệt độ theo °F và K
+    function step3() {
+        if (!myTemperature) {
+            alert('❌ Vui lòng chạy Bước 1 trước!');
+            return;
+        }
+
+        // Gọi các phương thức chuyển đổi
+        let fahrenheit = myTemperature.toFahrenheit();
+        let kelvin = myTemperature.toKelvin();
+
+        let content = document.getElementById('resultContent');
+
+        content.innerHTML = `
+        <h3>📊 Kết quả chuyển đổi nhiệt độ:</h3>
+        <div class="temp-display celsius">
+          🌡️ Celsius: ${myTemperature.celsius}°C
+        </div>
+        <div class="temp-display fahrenheit">
+          🌡️ Fahrenheit: ${fahrenheit.toFixed(2)}°F
+        </div>
+        <div class="temp-display kelvin">
+          🌡️ Kelvin: ${kelvin.toFixed(2)}K
+        </div>
+
+        <p style="margin-top: 20px; font-size: 14px; color: #666;">
+          <strong>Công thức đã sử dụng:</strong><br>
+          °F = (${myTemperature.celsius} × 9/5) + 32 = ${fahrenheit.toFixed(2)}<br>
+          K = ${myTemperature.celsius} + 273.15 = ${kelvin.toFixed(2)}
+        </p>
+      `;
+
+        alert('✅ Bước 3: Đã chuyển đổi!\n\n' +
+            '🌡️ Celsius: ' + myTemperature.celsius + '°C\n' +
+            '🌡️ Fahrenheit: ' + fahrenheit.toFixed(2) + '°F\n' +
+            '🌡️ Kelvin: ' + kelvin.toFixed(2) + 'K');
+
+        console.log('Fahrenheit:', fahrenheit);
+        console.log('Kelvin:', kelvin);
+    }
+
+    // ================================================================
+    // HÀM CHUYỂN ĐỔI TỰ DO
+    // ================================================================
+
+    function convertCustomTemp() {
+        let input = document.getElementById('customTemp').value;
+        let celsius = parseFloat(input);
+        let errorDiv = document.getElementById('errorMsg');
+        let resultDiv = document.getElementById('result2');
+        let customResult = document.getElementById('customResult');
+
+        // Ẩn lỗi cũ
+        errorDiv.style.display = 'none';
+
+        // Kiểm tra input
+        if (isNaN(celsius)) {
+            errorDiv.textContent = '❌ Vui lòng nhập một số hợp lệ!';
+            errorDiv.style.display = 'block';
+            resultDiv.classList.remove('show');
+            return;
+        }
+
+        // Kiểm tra giá trị tối thiểu
+        if (celsius < -273) {
+            errorDiv.textContent = '❌ Nhiệt độ không thể thấp hơn -273°C (Không tuyệt đối)!';
+            errorDiv.style.display = 'block';
+            resultDiv.classList.remove('show');
+            return;
+        }
+
+        // Tạo object Temperature mới
+        let temp = new Temperature(celsius);
+
+        // Chuyển đổi
+        let fahrenheit = temp.toFahrenheit();
+        let kelvin = temp.toKelvin();
+
+        // Hiển thị kết quả
+        customResult.innerHTML = `
+        <div class="temp-display celsius">
+          🌡️ Celsius: ${celsius}°C
+        </div>
+        <div class="temp-display fahrenheit">
+          🌡️ Fahrenheit: ${fahrenheit.toFixed(2)}°F
+        </div>
+        <div class="temp-display kelvin">
+          🌡️ Kelvin: ${kelvin.toFixed(2)}K
+        </div>
+      `;
+
+        resultDiv.classList.add('show');
+    }
+
+    // ================================================================
+    // ĐĂNG KÝ SỰ KIỆN - TÁCH RIÊNG KHỎI HTML
+    // ================================================================
+
+    // Đợi DOM load xong mới gán sự kiện
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Lấy các button bằng ID
+        let btnStep1 = document.getElementById('btnStep1');
+        let btnStep2 = document.getElementById('btnStep2');
+        let btnStep3 = document.getElementById('btnStep3');
+        let btnConvert = document.getElementById('btnConvert');
+        let inputCustomTemp = document.getElementById('customTemp');
+
+        // Gán sự kiện click cho từng button
+        btnStep1.addEventListener('click', step1);
+        btnStep2.addEventListener('click', step2);
+        btnStep3.addEventListener('click', step3);
+        btnConvert.addEventListener('click', convertCustomTemp);
+
+        // Cho phép nhấn Enter trong ô input để chuyển đổi
+        inputCustomTemp.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                convertCustomTemp();
+            }
+        });
+
+        console.log('✅ Đã đăng ký tất cả sự kiện thành công!');
+    });
+</script>
+</body>
+</html>
